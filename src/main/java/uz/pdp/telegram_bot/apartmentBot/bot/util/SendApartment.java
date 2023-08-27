@@ -64,17 +64,18 @@ public class SendApartment {
                 }
             }
         } else {
-                if (!GetAndSetStates.getAddressBackState(update).equals(StateForAddressBack.DEFAULT)){
-                    try {
-                        bot.execute(DeleteMessage.builder()
-                                .chatId(UpdateProcessor.extractChatId(update))
-                                .messageId(UpdateProcessor.extractMessageId(update))
-                                .build()
-                        );
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
+            if (!GetAndSetStates.getAddressBackState(update).equals(StateForAddressBack.DEFAULT) ||
+                    GetAndSetStates.getIdentifyListState(update).equals(StateForGetList.RECENTLY_UPLOADED)) {
+                try {
+                    bot.execute(DeleteMessage.builder()
+                            .chatId(UpdateProcessor.extractChatId(update))
+                            .messageId(UpdateProcessor.extractMessageId(update))
+                            .build()
+                    );
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException(e);
                 }
+            }
             Apartment apartment = apartments.get(index);
             String text = "Username : " + apartment.getUsername() +
                     "\nDescription : " + apartment.getDescription() +

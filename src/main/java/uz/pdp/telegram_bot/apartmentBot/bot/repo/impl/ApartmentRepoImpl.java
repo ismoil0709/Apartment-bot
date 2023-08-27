@@ -1,35 +1,38 @@
 package uz.pdp.telegram_bot.apartmentBot.bot.repo.impl;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import uz.pdp.telegram_bot.apartmentBot.bot.repo.ApartmentRepo;
+import uz.pdp.telegram_bot.apartmentBot.model.Address;
 import uz.pdp.telegram_bot.apartmentBot.model.Apartment;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class ApartmentRepoImpl implements ApartmentRepo {
     private static final List<Apartment> APARTMENTS = new ArrayList<>();
     private static ApartmentRepo apartmentRepo;
 
-//    static {
-//        APARTMENTS.add(new Apartment("3",LocalDateTime.now(), "1084271471",
-//                "ismoil_0709",
-//                "h",
-//                new Address(41.361506, 69.166629,"BUco"),
-//                new PhotoSize("AgACAgIAAxkBAAOsZOo3S9VEz4uELrh2dHHtQgleFBYAApXNMRuIOVlLDDfsJs3Mjr8BAAMCAANzAAMwBA",
-//                        "AQADlc0xG4g5WUt4",
-//                        90, 83, 1661, null),
-//                1D, "e",7
-//        ));
-//        APARTMENTS.add(new Apartment("4",LocalDateTime.parse("2022-08-27T20:02:06")
-//                , "1084271471",
-//                "rrrr",
-//                "h",
-//                new Address(33.361506, 64.166629,"Tashkent"),
-//                new PhotoSize("AgACAgIAAxkBAAOsZOo3S9VEz4uELrh2dHHtQgleFBYAApXNMRuIOVlLDDfsJs3Mjr8BAAMCAANzAAMwBA",
-//                        "AQADlc0xG4g5WUt4",
-//                        90, 83, 1661, null),
-//                1700D, "r",5
-//        ));
-//
-//    }
+    static {
+        APARTMENTS.add(new Apartment(UUID.randomUUID(), LocalDateTime.now(), "1084271471",
+                "ismoil_0709",
+                "h",
+                new Address(41.361506, 69.166629,"BUco"),
+                new PhotoSize("AgACAgIAAxkBAAOsZOo3S9VEz4uELrh2dHHtQgleFBYAApXNMRuIOVlLDDfsJs3Mjr8BAAMCAANzAAMwBA",
+                        "AQADlc0xG4g5WUt4",
+                        90, 83, 1661, null),
+                1D, "e",7
+        ));
+        APARTMENTS.add(new Apartment(UUID.randomUUID(),LocalDateTime.parse("2022-08-27T20:02:06")
+                , "1084271471",
+                "rrrr",
+                "h",
+                new Address(33.361506, 64.166629,"Tashkent"),
+                new PhotoSize("AgACAgIAAxkBAAOsZOo3S9VEz4uELrh2dHHtQgleFBYAApXNMRuIOVlLDDfsJs3Mjr8BAAMCAANzAAMwBA",
+                        "AQADlc0xG4g5WUt4",
+                        90, 83, 1661, null),
+                1700D, "r",5
+        ));
+
+    }
 
     @Override
     public void put(Apartment apartment) {

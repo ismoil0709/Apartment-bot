@@ -6,6 +6,7 @@ import uz.pdp.telegram_bot.apartmentBot.bot.callback.callbacksProcess.Callback_s
 import uz.pdp.telegram_bot.apartmentBot.bot.callback.callbacksProcess.Callback_search_with_number_of_rooms;
 import uz.pdp.telegram_bot.apartmentBot.bot.callback.callbacksProcess.Callback_search_with_price;
 import uz.pdp.telegram_bot.apartmentBot.bot.callback.callbacksProcess.editApartment.Callback_edit_city;
+import uz.pdp.telegram_bot.apartmentBot.bot.repo.impl.ApartmentRepoImpl;
 import uz.pdp.telegram_bot.apartmentBot.bot.repo.impl.ClientRepoImpl;
 import uz.pdp.telegram_bot.apartmentBot.bot.state.StateForAddressBack;
 import uz.pdp.telegram_bot.apartmentBot.bot.state.StateForBack;
@@ -19,6 +20,7 @@ public class GetAddressBack {
         GetAndSetStates.setBackButtonState(update,StateForBack.MY_APARTMENT);
         StateForAddressBack state = GetAndSetStates.getAddressBackState(update);
         switch (state){
+            case RECENTLY_UPLOADS -> SendApartment.sendApartmentsInformation(update,bot, ApartmentRepoImpl.getInstance().list());
             case MY_APARTMENT -> {
                 Client client = ClientRepoImpl.getInstance().get(UpdateProcessor.extractChatId(update));
                 SendApartment.sendMyApartmentsInformation(update, bot, client.getApartment());
