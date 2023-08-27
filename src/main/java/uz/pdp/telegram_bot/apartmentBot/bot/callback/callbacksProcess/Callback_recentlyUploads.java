@@ -17,15 +17,6 @@ import java.util.Comparator;
 
 public class Callback_recentlyUploads {
     public static void process(Update update, TelegramLongPollingBot bot) {
-        try {
-            bot.execute(DeleteMessage.builder()
-                    .chatId(UpdateProcessor.extractChatId(update))
-                    .messageId(UpdateProcessor.extractMessageId(update))
-                    .build()
-            );
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
-        }
         GetAndSetStates.setBackButtonState(update, StateForBack.RECENTLY_UPLOADED);
         GetAndSetStates.setIdentifyListState(update, StateForGetList.RECENTLY_UPLOADED);
         GetAndSetStates.setNotFoundState(update, StateForNotFoundBack.NOT_FOUND_RECENTLY_UPLOADS);
