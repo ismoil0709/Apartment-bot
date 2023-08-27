@@ -1,0 +1,29 @@
+package uz.pdp.telegram_bot.apartmentBot.bot.state;
+public enum StateForBack {
+    DEFAULT,
+    MENU,
+    SEARCH_APARTMENT,
+    RECENTLY_UPLOADED,
+    GET_ADDRESS,
+    WRITE_PRICE,
+    WRITE_ROOMS,
+    WRITE_CITY,
+    SEARCH_WITH_PRICE,
+    SEARCH_WITH_NUMBER_OF_ROOMS,
+    SEARCH_WITH_CITY,
+    POST_AN_AD,
+    AUTH,
+    MY_APARTMENT,
+    MY_APARTMENT_EDIT,
+    EDIT_PHOTO,
+    EDIT_PRICE,
+    EDIT_ROOMS,
+    EDIT_CITY,
+    EDIT_DESCRIPTION,
+    EDIT_NAME,
+    EDIT_EMAIL,
+    EDIT_PASSWORD,
+    EDIT_USERNAME,
+    EDIT_NUMBER;
+
+}

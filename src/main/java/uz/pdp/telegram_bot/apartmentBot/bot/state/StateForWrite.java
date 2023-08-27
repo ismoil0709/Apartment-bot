@@ -1,0 +1,19 @@
+package uz.pdp.telegram_bot.apartmentBot.bot.state;
+
+public enum StateForWrite {
+    DEFAULT,
+    WRITE_PRICE,
+    WRITE_ROOMS,
+    WRITE_CITY,
+    SEND_PHOTO,
+    SEND_LOCATION,
+    WRITE_EDIT_DESCRIPTION,
+    WRITE_EDIT_PRICE,
+    WRITE_EDIT_ROOMS,
+    WRITE_EDIT_CITY,
+    WRITE_EDIT_NAME,
+    WRITE_EDIT_EMAIL,
+    WRITE_EDIT_PASSWORD,
+    WRITE_EDIT_USERNAME,
+    WRITE_EDIT_NUMBER;
+}
