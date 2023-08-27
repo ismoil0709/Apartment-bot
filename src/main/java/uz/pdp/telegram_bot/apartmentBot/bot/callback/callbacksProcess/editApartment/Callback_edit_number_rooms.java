@@ -37,6 +37,7 @@ public class Callback_edit_number_rooms {
                     throw new RuntimeException(e);
                 }
                 GetAndSetStates.setWriteState(update, StateForWrite.DEFAULT);
+                GetAndSetStates.setBackButtonState(update,StateForBack.MY_APARTMENT_EDIT);
                 SendApartment.sendMyApartmentsInformation(update,bot,client.getApartment());
             } else {
                 try {

@@ -1,6 +1,7 @@
 package uz.pdp.telegram_bot.apartmentBot.bot.writeProcess;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import uz.pdp.telegram_bot.apartmentBot.bot.auth.steps.*;
 import uz.pdp.telegram_bot.apartmentBot.bot.callback.callbacksProcess.*;
@@ -29,7 +30,7 @@ public class WriteProcess {
             case WRITE_EDIT_EMAIL -> Callback_edit_email.process(update, bot);
             case WRITE_EDIT_NUMBER -> Callback_edit_number.process(update, bot);
             case WRITE_EDIT_PASSWORD -> Callback_edit_password.process(update, bot);
-            case WRITE_EDIT_USERNAME -> Callback_edit_username.process(update,bot);
+            case WRITE_EDIT_USERNAME -> Callback_edit_username.process(update, bot);
         }
     }
 
@@ -38,6 +39,7 @@ public class WriteProcess {
         switch (state) {
             case EMAIL -> EmailStep.sendMessageEmail(update, bot);
             case WRITE_EMAIL -> EmailStep.process(update, bot);
+            case CONTACT -> Get_contact.process(update, bot);
             case WRITE_PASSWORD -> PasswordStep.process(update, bot);
             case LOGIN_EMAIL -> LoginEmailStep.sendMessageEmail(update, bot);
             case LOGIN_WRITE_EMAIL -> LoginEmailStep.process(update, bot);
@@ -50,7 +52,7 @@ public class WriteProcess {
     public static void writeNewApartment(Update update, TelegramLongPollingBot bot) {
         StateForPostAnAd state = GetAndSetStates.getPostAnAdState(update);
         switch (state) {
-            case DESCRIPTION -> DescriptionProcess.sendMessage(update, bot);
+            case PHOTO -> PhotoStep.process(update, bot);
             case WRITE_DESCRIPTION -> DescriptionProcess.process(update, bot);
             case WRITE_PRICE -> PriceStep.process(update, bot);
             case WRITE_ROOMS -> RoomsStep.process(update, bot);
@@ -58,6 +60,8 @@ public class WriteProcess {
                 CityStep.process(update, bot);
                 FinishStep.process(update, bot);
             }
+            case SEND_LOCATION -> LocationStep.process(update, bot);
+
         }
     }
 }

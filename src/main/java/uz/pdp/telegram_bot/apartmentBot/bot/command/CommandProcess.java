@@ -57,6 +57,7 @@ public class CommandProcess {
                 } catch (TelegramApiException e) {
                     log.error(e.getLocalizedMessage());
                 }
+                GetAndSetStates.setSignUpState(update,StateForSignUp.DEFAULT);
                 AuthSendMessageProcess.sendMessage(update, bot);
             }
             case BACK_LOCATION -> {

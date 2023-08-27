@@ -39,6 +39,9 @@ public class CallBack_back {
                 GetAndSetStates.setWriteState(update,StateForWrite.DEFAULT);
                 AccountSettings.processWithEdition(update, bot);
             }
+            case MY_APARTMENT_EDIT -> {
+                Callback_edit_apartment.sendMessage(update, bot);
+            }
 
         }
 

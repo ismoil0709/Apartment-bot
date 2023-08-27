@@ -26,27 +26,42 @@ import java.util.List;
 
 public class LocationStep {
     private static final Logger log = LoggerFactory.getLogger(LocationStep.class.getName());
+
     public static void process(Update update, TelegramLongPollingBot bot) {
-        Apartment apartment = new Apartment();
-        for (Apartment a : UtilLists.apartmentMap.values()) {
-            if (a.getUserId().equals(UpdateProcessor.extractChatId(update))) apartment = a;
-        }
-        Location location = update.getMessage().getLocation();
-        Address address = new Address();
-        address.setLongitude(location.getLongitude());
-        address.setLatitude(location.getLatitude());
-        apartment.setAddress(address);
-        UtilLists.apartmentMap.put(UpdateProcessor.extractChatId(update), apartment);
-        GetAndSetStates.setPostAnAdState(update, StateForPostAnAd.DESCRIPTION);
-        try {
-            bot.execute(SendMessage.builder()
-                    .text("Successfully ✅")
-                    .chatId(UpdateProcessor.extractChatId(update))
-                    .replyMarkup(new ReplyKeyboardRemove(true))
-                    .build()
-            );
-        } catch (TelegramApiException e) {
-            log.error(e.getLocalizedMessage());
+        if (update.hasMessage()) {
+            if (update.getMessage().hasLocation()) {
+                Apartment apartment = new Apartment();
+                for (Apartment a : UtilLists.apartmentMap.values()) {
+                    if (a.getUserId().equals(UpdateProcessor.extractChatId(update))) apartment = a;
+                }
+                Location location = update.getMessage().getLocation();
+                Address address = new Address();
+                address.setLongitude(location.getLongitude());
+                address.setLatitude(location.getLatitude());
+                apartment.setAddress(address);
+                UtilLists.apartmentMap.put(UpdateProcessor.extractChatId(update), apartment);
+                try {
+                    bot.execute(SendMessage.builder()
+                            .text("Successfully ✅")
+                            .chatId(UpdateProcessor.extractChatId(update))
+                            .replyMarkup(new ReplyKeyboardRemove(true))
+                            .build()
+                    );
+                } catch (TelegramApiException e) {
+                    log.error(e.getLocalizedMessage());
+                }
+                DescriptionProcess.sendMessage(update, bot);
+            } else {
+                try {
+                    bot.execute(SendMessage.builder()
+                            .chatId(UpdateProcessor.extractChatId(update))
+                            .text("Wrong input \n Please share Contact")
+                            .build()
+                    );
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 }

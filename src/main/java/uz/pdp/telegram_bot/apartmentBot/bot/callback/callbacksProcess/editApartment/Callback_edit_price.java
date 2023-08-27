@@ -58,6 +58,7 @@ public class Callback_edit_price {
                     throw new RuntimeException(e);
                 }
                 SendApartment.sendMyApartmentsInformation(update,bot,client.getApartment());
+                GetAndSetStates.setBackButtonState(update,StateForBack.MY_APARTMENT_EDIT);
                 GetAndSetStates.setWriteState(update, StateForWrite.DEFAULT);
             }else {
                 try {

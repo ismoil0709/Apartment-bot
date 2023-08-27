@@ -30,24 +30,38 @@ public class PhotoStep {
             .build();
 
     public static void process(Update update, TelegramLongPollingBot bot) {
-        PhotoSize photoSize = update.getMessage().getPhoto().get(0);
-        Apartment apartment = new Apartment();
-        apartment.setNumber(ClientRepoImpl.getInstance().get(UpdateProcessor.extractChatId(update)).getNumber());
-        apartment.setUserId(UpdateProcessor.extractChatId(update));
-        apartment.setDateTime(LocalDateTime.now());
-        apartment.setUsername(update.getMessage().getFrom().getUserName());
-        apartment.setPhoto(photoSize);
-        UtilLists.apartmentMap.put(UpdateProcessor.extractChatId(update), apartment);
-        try {
-            bot.execute(SendMessage.builder()
-                    .text("Share Location \uD83D\uDCCD")
-                    .chatId(UpdateProcessor.extractChatId(update))
-                    .replyMarkup(MARKUP_LOCATION)
-                    .build()
-            );
-        } catch (TelegramApiException e) {
-            log.error(e.getLocalizedMessage());
+        if (update.hasMessage()) {
+            if (update.getMessage().hasPhoto()) {
+                PhotoSize photoSize = update.getMessage().getPhoto().get(0);
+                Apartment apartment = new Apartment();
+                apartment.setNumber(ClientRepoImpl.getInstance().get(UpdateProcessor.extractChatId(update)).getNumber());
+                apartment.setUserId(UpdateProcessor.extractChatId(update));
+                apartment.setDateTime(LocalDateTime.now());
+                apartment.setUsername(update.getMessage().getFrom().getUserName());
+                apartment.setPhoto(photoSize);
+                UtilLists.apartmentMap.put(UpdateProcessor.extractChatId(update), apartment);
+                try {
+                    bot.execute(SendMessage.builder()
+                            .text("Share Location \uD83D\uDCCD")
+                            .chatId(UpdateProcessor.extractChatId(update))
+                            .replyMarkup(MARKUP_LOCATION)
+                            .build()
+                    );
+                } catch (TelegramApiException e) {
+                    log.error(e.getLocalizedMessage());
+                }
+                GetAndSetStates.setPostAnAdState(update, StateForPostAnAd.SEND_LOCATION);
+            }else {
+                try {
+                    bot.execute(SendMessage.builder()
+                            .chatId(UpdateProcessor.extractChatId(update))
+                            .text("Wrong input \n Please share Contact")
+                            .build()
+                    );
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
-        GetAndSetStates.setPostAnAdState(update, StateForPostAnAd.SEND_LOCATION);
     }
 }

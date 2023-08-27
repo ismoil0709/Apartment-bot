@@ -2,6 +2,7 @@ package uz.pdp.telegram_bot.apartmentBot.bot.callback.callbacksProcess.editApart
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -26,6 +27,15 @@ public class Callback_edit_apartment {
             .build();
 
     public static void sendMessage(Update update, TelegramLongPollingBot bot) {
+        try {
+            bot.execute(DeleteMessage.builder()
+                    .messageId(UpdateProcessor.extractMessageId(update))
+                    .chatId(UpdateProcessor.extractChatId(update))
+                    .build()
+            );
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
         try {
             bot.execute(SendMessage.builder()
                     .text("Choose : ")

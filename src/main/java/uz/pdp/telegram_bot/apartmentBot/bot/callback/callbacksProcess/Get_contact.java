@@ -16,22 +16,38 @@ import uz.pdp.telegram_bot.apartmentBot.model.Client;
 
 public class Get_contact {
     private static final Logger log = LoggerFactory.getLogger(Get_contact.class.getName());
+
     public static void process(Update update, TelegramLongPollingBot bot) {
-        GetAndSetStates.setBackButtonState(update, StateForBack.AUTH);
-        Contact contact = update.getMessage().getContact();
-        Client client = Client.from(contact);
-        client.setUsername(update.getMessage().getFrom().getUserName());
-        UtilLists.clientSignUpMap.put(UpdateProcessor.extractChatId(update), client);
-        GetAndSetStates.setSignUpState(update, StateForSignUp.EMAIL);
-        try {
-            bot.execute(SendMessage.builder()
-                    .text("contact sent successfully")
-                    .chatId(UpdateProcessor.extractChatId(update))
-                    .replyMarkup(Home_sate.INLINE_MARKUP_HOME_STATE)
-                    .build()
-            );
-        } catch (TelegramApiException e) {
-            log.error(e.getLocalizedMessage());
+        if (update.hasMessage()) {
+            if (update.getMessage().hasContact()) {
+                GetAndSetStates.setBackButtonState(update, StateForBack.AUTH);
+                Contact contact = update.getMessage().getContact();
+                Client client = Client.from(contact);
+                client.setUsername(update.getMessage().getFrom().getUserName());
+                UtilLists.clientSignUpMap.put(UpdateProcessor.extractChatId(update), client);
+                GetAndSetStates.setSignUpState(update, StateForSignUp.EMAIL);
+                try {
+                    bot.execute(SendMessage.builder()
+                            .text("contact sent successfully")
+                            .chatId(UpdateProcessor.extractChatId(update))
+                            .replyMarkup(Home_sate.INLINE_MARKUP_HOME_STATE)
+                            .build()
+                    );
+                } catch (TelegramApiException e) {
+                    log.error(e.getLocalizedMessage());
+                }
+            }
+            else {
+                try {
+                    bot.execute(SendMessage.builder()
+                            .chatId(UpdateProcessor.extractChatId(update))
+                            .text("Wrong input \n Please share Contact")
+                            .build()
+                    );
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 }
